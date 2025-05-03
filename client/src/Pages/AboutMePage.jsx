@@ -5,7 +5,7 @@ const AboutMePage = () => {
     <section className="py-12 bg-gray-50 dark:bg-gray-800 px-6">
 	    <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center">About Me</h2>
 	    
-	    <div className="flex flex-col lg:flex-row items-start gap-10 mx-10">
+	    <div className="flex flex-col lg:flex-row items-start gap-10 mx-2 md:mx-4">
 	      <div className="w-full sm:w-3/4 md:w-2/3 lg:w-1/3">
 	        <div className="sticky top-6">
 	          <div className="relative group mb-6">

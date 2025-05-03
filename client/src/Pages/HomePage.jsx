@@ -5,7 +5,7 @@ const HomePage = () => {
   return (
     <>
 	{/* Intro section */}
-    <section className='py-12 flex flex-col lg:flex-row items-center gap-8 mx-10'>
+    <section className='py-12 flex flex-col lg:flex-row items-center gap-8 mx-2 md:mx-4'>
        <div className="w-full lg:w-1/2 order-2 lg:order-1">
 	      <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">Building <span className="text-primary-100">digital experiences</span> that matter</h2>
 	      <p className="text-gray-400 mb-6 text-lg">I create elegant, high-performance web applications with a focus on user experience and clean code. Passionate about solving complex problems with simple solutions.</p>
@@ -29,15 +29,20 @@ const HomePage = () => {
 	    </div>
     </section>
 	{/* About me & Technical Experience section */}
-    <section className='py-12 md:py-16 px-4 md:px-0 mx-10'>
+    <section className='py-12 md:py-16 px-4 md:px-0 mx-2 md:mx-4'>
       <div className='flex flex-col md:flex-row gap-12 items-start'>
           <div className="w-full md:w-1/2 lg:w-2/5">
 	        <div className="relative group">
 	          <div className="absolute -inset-1 bg-gradient-to-r from-primary-100 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
 	          <div className="relative bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl">
 	            <h3 className="text-2xl font-bold mb-3">About Me</h3>
-	            <p className="text-gray-600 dark:text-gray-400 mb-4">With over 5 years of experience in web development, I specialize in creating responsive, accessible, and performant web applications. My approach combines technical expertise with a keen eye for design.</p>
-	            <p className="text-gray-600 dark:text-gray-400">When I'm not coding, you'll find me hiking, reading science fiction, or experimenting with new technologies. I believe in continuous learning and staying ahead of industry trends.</p>
+	            <p className="text-gray-600 dark:text-gray-400 mb-4">
+					I'm a passionate and self-driven developer currently studying at the University of Ibadan. My journey into web development began with curiosity — experimenting with HTML, CSS, and JavaScript — and has grown into a deep commitment to building user-focused, functional applications.</p>
+	            <p className="text-gray-600 dark:text-gray-400 mb-4"> 
+					I’ve been actively learning full stack development through real-world projects, exploring technologies like React, Nodejs, Zustand, socket.io, MongoDB, and Tailwind CSS. Whether it's building a Chat Application  or crafting responsive interfaces, I love turning ideas into working solutions that matter.</p>
+				<p className="text-gray-600 dark:text-gray-400">
+					Outside of coding, I enjoy learning about software architecture, collaborating with other developers, and finding creative ways to solve everyday problems with code. My goal is simple: keep growing, keep building, and deliver software that makes an impact.
+				</p>
 	            <div className="mt-4 flex gap-3">
 	              <a href="https://github.com/Oladize1" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-secondary-200 dark:hover:bg-primary-900 transition-colors duration-300">
 	                <i className="fa-brands fa-github text-xl"></i>
@@ -90,7 +95,7 @@ const HomePage = () => {
     </section>
 
 	{/* Projects section */}
-    <section className='py-16 mx-10'>
+    <section className='py-16 mx-2 md:mx-4'>
       <h2 className="text-3xl font-bold mb-8 text-center">Featured Projects</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 	      <div className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
@@ -135,7 +140,7 @@ const HomePage = () => {
 	{/* Skills section */}
 	<section className="py-16 bg-gray-50 dark:bg-gray-800">
 		<h2 className="text-3xl font-bold mb-12 text-center">Skills & Technologies</h2>
-		<div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-10'>
+		<div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-2 md:mx-4'>
 			 <div className="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-primary-500 border border-transparent">
 	        <div className="flex items-center gap-3 mb-3">
 	          <i className="fa-brands fa-react text-2xl text-blue-500"></i>

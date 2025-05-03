@@ -38,11 +38,12 @@ const Navbar = () => {
           </svg>
     </label>
   </div>
-  <div className="drawer-side z-20">
+  <div className="drawer-side z-30">
     <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-4 md:gap-6">
       {/* Sidebar content here */}
-      <li><Link to="#about" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">About</Link></li>
+      <li><Link to="/" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Home</Link></li>
+      <li><Link to="/about-me" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">About</Link></li>
 	        <li ><a href="#projects" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Projects</a></li>
 	        <li><Link to="#skills" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Skills</Link></li>
 	        <li><Link to="#experience" className="px-3 py-2 rounded-full hover:bg-secondary-200  transition-all duration-300 hover:scale-105">Experience</Link></li>
