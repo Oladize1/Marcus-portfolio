@@ -1,4 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
+
+
+
 @import "tailwindcss";
 @plugin "daisyui" {
     themes: all;
+}
+
+:root {
+    --font-lato: 'Lato', sans-serif;
+    --font-opensans: 'Open Sans', sans-serif;
+}
+
+@theme {
+    --font-display: 'Lato', "sans-serif";
+    --color-primary-50: rgb(60 8 170);
+    --color-primary-100: rgb(148 120 255);
+    --color-secondary-200: rgb(99, 27, 255);
+    --btn-primary-100: rgb(99, 27, 255);
 }
