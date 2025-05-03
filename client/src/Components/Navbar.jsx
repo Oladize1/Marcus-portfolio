@@ -9,10 +9,11 @@ const Navbar = () => {
 	    </div>
       <nav className=" hidden w-full md:w-auto md:block">
 	      <ul className="flex flex-wrap justify-start md:justify-end gap-4 md:gap-6">
-	        <li><Link to="#about" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">About</Link></li>
-	        <li ><a href="#projects" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Projects</a></li>
+          <li><Link to="/" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Home</Link></li>
+	        <li><Link to="/about-me" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">About</Link></li>
+	        <li ><Link to="#projects" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Projects</Link></li>
 	        <li><Link to="#skills" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Skills</Link></li>
-	        <li><Link to="#experience" className="px-3 py-2 rounded-full hover:bg-secondary-200  transition-all duration-300 hover:scale-105">Experience</Link></li>
+	        {/* <li><Link to="#experience" className="px-3 py-2 rounded-full hover:bg-secondary-200  transition-all duration-300 hover:scale-105">Experience</Link></li> */}
 	        <li><Link to="#contact" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Contact</Link></li>
 	      </ul>
 	    </nav>
