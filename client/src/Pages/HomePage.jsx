@@ -10,13 +10,13 @@ const HomePage = () => {
 	      <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">Building <span className="text-primary-100">digital experiences</span> that matter</h2>
 	      <p className="text-gray-400 mb-6 text-lg">I create elegant, high-performance web applications with a focus on user experience and clean code. Passionate about solving complex problems with simple solutions.</p>
 	      <div className="flex flex-wrap gap-4">
-	        <Link to="#projects" className="px-6 py-3 bg-secondary-200 hover:bg-primary-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">View My Work</Link>
+	        <Link to="/projects" className="px-6 py-3 bg-secondary-200 hover:bg-primary-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">View My Work</Link>
 	        <Link to="#contact" className="px-6 py-3 border border-primary-100 text-primary-100  rounded-full hover:bg-primary-50 transition-all duration-300 transform hover:-translate-y-1">Contact Me</Link>
 	      </div>
 	      {/* Next: "Add animated scroll down indicator" */}
 	    </div>
       <div className="w-full lg:w-1/2 order-1 lg:order-2 relative px-4 md:px-0 mb-8 lg:mb-0">
-	      <div  className="relative w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+	      <div className="relative w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl transform sm:hover:scale-[1.02] motion-safe:active:scale-[1.02] sm:motion-safe:focus:scale-[1.02] transition-transform duration-500">
 	        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-purple-600/20 z-10"></div>
 	        <img src="./Hero-image.jpg" loading='lazy' alt="Developer working on code" className="w-full h-full object-cover" keywords="developer, coding, programming, workspace, computer" />
 	        <div className="absolute bottom-4 left-4 right-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm p-4 rounded-lg shadow-lg z-20">
@@ -130,10 +130,10 @@ const HomePage = () => {
 	      </div>
 	    </div>
       <div className="text-center mt-12">
-	      <a  href="#" className="inline-flex items-center gap-2 px-5 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full hover:border-primary-50 dark:hover:border-primary-100 transition-all duration-300 shadow-md hover:shadow-lg">
+	      <Link  to="/projects" className="inline-flex items-center gap-2 px-5 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full hover:border-primary-50 dark:hover:border-primary-100 transition-all duration-300 shadow-md hover:shadow-lg">
 	        View All Projects
 	        <span className="material-symbols-outlined">arrow_forward</span>
-	      </a>
+	      </Link>
 	    </div>  
     </section>
 
