@@ -2,19 +2,18 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 const Navbar = () => {
   return (
-    <header className='flex items-center justify-between p-10 px-6 flex-wrap'>
+    <header className='flex items-center justify-between px-3 py-6 md:p-10 flex-wrap'>
       <div className="mb-4 md:mb-0">
-	      <p className="text-3xl font-bold text-primary-100">Marcus Oladunjoye</p>
+	      <p className="text-2xl md:text-3xl font-bold text-primary-100">Marcus Oladunjoye</p>
 	      <p className="text-gray-600 dark:text-gray-400 mt-1">Full Stack Developer & UI/UX Enthusiast</p>
 	    </div>
       <nav className=" hidden w-full md:w-auto md:block">
 	      <ul className="flex flex-wrap justify-start md:justify-end gap-4 md:gap-6">
           <li><Link to="/" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Home</Link></li>
 	        <li><Link to="/about-me" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">About</Link></li>
-	        <li ><Link to="#projects" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Projects</Link></li>
-	        <li><Link to="#skills" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Skills</Link></li>
-	        {/* <li><Link to="#experience" className="px-3 py-2 rounded-full hover:bg-secondary-200  transition-all duration-300 hover:scale-105">Experience</Link></li> */}
-	        <li><Link to="#contact" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Contact</Link></li>
+	        <li ><Link to="/projects" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Projects</Link></li>
+	        <li><Link to="/my-skills" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Skills</Link></li>
+	        <li><Link to="/contact-me" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Contact</Link></li>
 	      </ul>
 	    </nav>
       <div className='lg:hidden'>
@@ -44,9 +43,8 @@ const Navbar = () => {
       {/* Sidebar content here */}
       <li><Link to="/" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Home</Link></li>
       <li><Link to="/about-me" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">About</Link></li>
-	        <li ><a href="#projects" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Projects</a></li>
-	        <li><Link to="#skills" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Skills</Link></li>
-	        <li><Link to="#experience" className="px-3 py-2 rounded-full hover:bg-secondary-200  transition-all duration-300 hover:scale-105">Experience</Link></li>
+	        <li ><a href="/projects" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Projects</a></li>
+	        <li><Link to="/my-skills" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Skills</Link></li>
 	        <li><Link to="#contact" className="px-3 py-2 rounded-full hover:bg-secondary-200 transition-all duration-300 hover:scale-105">Contact</Link></li>
     </ul>
   </div>

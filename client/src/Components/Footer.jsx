@@ -25,9 +25,9 @@ const Footer = () => {
 	      <ul className="space-y-2">
 			<li><Link to="/" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">Home</Link></li>
 	        <li><Link to="/about-me" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">About</Link></li>
-	        <li ><Link to="#projects" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">Projects</Link></li>
-	        <li><Link to="#skills" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">Skills</Link></li>
-	        <li><Link to="#contact" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">Contact</Link></li>
+	        <li ><Link to="/projects" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">Projects</Link></li>
+	        <li><Link to="/my-skills" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">Skills</Link></li>
+	        <li><Link to="/contact-me" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">Contact</Link></li>
 	      </ul>
 	    </div>
 	    
@@ -62,7 +62,7 @@ const Footer = () => {
 	  </div>
 	  
 	  <div className="border-t border-gray-200 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-	    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left">© 2023 Marcus Oladunjoye. All rights reserved.</p>
+	    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 md:mb-0 text-center md:text-left">© 2025 Marcus Oladunjoye. All rights reserved.</p>
 	    <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6">
 	      <a href="#" className="text-gray-600 dark:text-gray-400 text-sm hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">Privacy Policy</a>
 	      <a href="#" className="text-gray-600 dark:text-gray-400 text-sm hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300">Terms of Service</a>

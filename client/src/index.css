@@ -19,6 +19,8 @@
     --font-display: 'Lato', "sans-serif";
     --color-primary-50: rgb(60 8 170);
     --color-primary-100: rgb(148 120 255);
+    --color-primary-400: rgb(148 120 255);
+    --color-primary-900: rgb(60, 8, 170);
+    --color-secondary-100: rgb(97 27 248);
     --color-secondary-200: rgb(99, 27, 255);
-    --btn-primary-100: rgb(99, 27, 255);
 }
