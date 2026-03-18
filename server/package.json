@@ -7,8 +7,9 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "ts-node": "ts-node"
+    "dev": "tsx watch --env-file=.env index.ts",
+    "start": "node --env-file=.env --watch index.js",
+    "build": "tsx"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
@@ -17,5 +18,11 @@
     "@types/node": "^22.15.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.3.1",
+    "morgan": "^1.10.1",
+    "tsx": "^4.21.0"
   }
 }
