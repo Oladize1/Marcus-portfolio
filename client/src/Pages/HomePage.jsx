@@ -11,7 +11,7 @@ const HomePage = () => {
 	      <p className="text-gray-400 mb-6 text-lg">I create elegant, high-performance web applications with a focus on user experience and clean code. Passionate about solving complex problems with simple solutions.</p>
 	      <div className="flex flex-wrap gap-4">
 	        <Link to="/projects" className="px-6 py-3 bg-secondary-200 hover:bg-primary-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">View My Work</Link>
-	        <Link to="#contact" className="px-6 py-3 border border-primary-100 text-primary-100  rounded-full hover:bg-primary-50 transition-all duration-300 transform hover:-translate-y-1">Contact Me</Link>
+	        <Link to="/contact-me" className="px-6 py-3 border border-primary-100 text-primary-100  rounded-full hover:bg-primary-50 transition-all duration-300 transform hover:-translate-y-1">Contact Me</Link>
 	      </div>
 	      {/* Next: "Add animated scroll down indicator" */}
 	    </div>
@@ -50,7 +50,7 @@ const HomePage = () => {
 	              <a href="https://www.linkedin.com/in/pamilerin-oladunjoye-896ba4313/" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-secondary-200 dark:hover:bg-primary-900 transition-colors duration-300">
 	                <i className="fa-brands fa-linkedin text-xl"></i>
 	              </a>
-	              <a href="https://x.com/Marcus__1406" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-secondary-200 dark:hover:bg-primary-900 transition-colors duration-300">
+	              <a href="https://x.com/Marcus_1406" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-secondary-200 dark:hover:bg-primary-900 transition-colors duration-300">
 	                <i className="fa-brands fa-twitter text-xl"></i>
 	              </a>
 	            </div>

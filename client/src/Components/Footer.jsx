@@ -14,7 +14,7 @@ const Footer = () => {
 	        <a href="https://www.linkedin.com/in/pamilerin-oladunjoye-896ba4313/" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900 transition-colors duration-300">
 	          <i className="fa-brands fa-linkedin text-xl"></i>
 	        </a>
-	        <a href="https://x.com/Marcus__1406" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900 transition-colors duration-300">
+	        <a href="https://x.com/Marcus_1406" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-primary-900 transition-colors duration-300">
 	          <i className="fa-brands fa-twitter text-xl"></i>
 	        </a>
 	      </div>
