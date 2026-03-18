@@ -35,7 +35,7 @@ const AboutMePage = () => {
 	              <a  href="https://www.linkedin.com/in/pamilerin-oladunjoye-896ba4313/" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-600 hover:bg-secondary-200 dark:hover:bg-primary-900 transition-all duration-300 hover:scale-110">
 	                <i className="fa-brands fa-linkedin text-xl"></i>
 	              </a>
-	              <a href="https://x.com/Marcus__1406" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-600 hover:bg-primary-100 dark:hover:bg-primary-900 transition-all duration-300 hover:scale-110">
+	              <a href="https://x.com/Marcus_1406" target='blank' className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-600 hover:bg-primary-100 dark:hover:bg-primary-900 transition-all duration-300 hover:scale-110">
 	                <i className="fa-brands fa-twitter text-xl"></i>
 	              </a>
 	            </div>
