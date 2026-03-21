@@ -6,15 +6,15 @@ const ProjectSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
+    projectdesc: {
         type: String,
         required: true
     },
-    projectTags: [{
-        type: String,
+    projectTags: {
+        type: [String],
         required: true 
-    }],
-    ProjectSrcLink: {
+    },
+    projectSrcLink: {
         type: String,
         required: true
     },
