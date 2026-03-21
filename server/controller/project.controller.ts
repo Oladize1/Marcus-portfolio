@@ -1,8 +1,8 @@
 import { Project } from "../models/Project.module"
-import { Request, Response, RequestHandler } from "express"
+import { RequestHandler } from "express"
 import { uploadImg } from "../config/cloudinary"
 
-export const getProjects: RequestHandler = async (req: Request, res: Response) => {
+export const getProjects: RequestHandler = async (req, res) => {
     try {
         const projects = await Project.find()
         if (!projects || projects.length === 0) {
@@ -17,7 +17,7 @@ export const getProjects: RequestHandler = async (req: Request, res: Response) =
     }
 }
 
-export const createProject: RequestHandler = async (req: Request, res: Response) => {
+export const createProject: RequestHandler = async (req, res) => {
     try {
         const file = req.file;
 
@@ -61,7 +61,7 @@ export const createProject: RequestHandler = async (req: Request, res: Response)
     }
 }
 
-export const editProject: RequestHandler = async (req: Request, res: Response) => {
+export const editProject: RequestHandler = async (req, res) => {
     try {
         const {id} = req.params
         const {
@@ -103,7 +103,7 @@ export const editProject: RequestHandler = async (req: Request, res: Response) =
     }
 }
 
-export const deleteProject: RequestHandler = async (req: Request, res: Response) => {
+export const deleteProject: RequestHandler = async (req, res) => {
     try {
         const {id} = req.params
         const project = await Project.findByIdAndDelete(id)
