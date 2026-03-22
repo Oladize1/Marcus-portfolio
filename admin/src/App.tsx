@@ -1,9 +1,11 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth.tsx';
 import AdminLayout from './components/layout/AdminLayout.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import DashboardPage from './pages/DashboardPage.tsx';
 import CreateProjectPage from './pages/CreateProjectPage.tsx';
+import ProjectsPage from './pages/ProjectsPage.tsx';
 import MailsPage from './pages/MailsPage.tsx';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -11,7 +13,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center bg-slate-950">
-            <span className="loading loading-spinner loading-lg text-primary"></span>
+            <div className="w-12 h-12 border-4 border-slate-800 border-t-indigo-500 rounded-full animate-spin"></div>
         </div>
     );
     
@@ -35,8 +37,9 @@ function App() {
                     </ProtectedRoute>
                 }>
                     <Route index element={<DashboardPage />} />
-                    <Route path="projects" element={<DashboardPage />} />
+                    <Route path="projects" element={<ProjectsPage />} />
                     <Route path="projects/create" element={<CreateProjectPage />} />
+                    <Route path="projects/edit/:id" element={<CreateProjectPage />} />
                     <Route path="mails" element={<MailsPage />} />
                 </Route>
 
