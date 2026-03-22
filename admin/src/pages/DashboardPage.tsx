@@ -19,31 +19,24 @@ const DashboardPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    const fetchProjects = async () => {
-        try {
-            const response = await api.get('/projects');
-            if (Array.isArray(response.data)) {
-                setProjects(response.data);
-            } else {
-                setProjects([]);
-            }
-        } catch (error) {
-            setError('Failed to load projects');
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await api.get('/projects');
+                setProjects(Array.isArray(response.data) ? response.data : []);
+            } catch (err: any) {
+                setError('Unable to sync workspace data');
+            } finally {
+                setLoading(false);
+            }
+        };
         fetchProjects();
     }, []);
 
-    const handleDelete = async (id: string) => {
-        if (!window.confirm('Are you sure you want to delete this project?')) return;
-
+    const deleteProject = async (id: string) => {
+        if (!window.confirm('Are you sure you want to archive this project?')) return;
         try {
-            await api.delete(`/projects/${id}/delete`);
+            await api.delete(`/projects/${id}`);
             setProjects(projects.filter(p => p._id !== id));
         } catch {
             alert('Failed to delete project');
@@ -51,109 +44,123 @@ const DashboardPage = () => {
     };
 
     if (loading) return (
-        <div className="flex justify-center items-center h-[50vh]">
-            <div className="flex flex-col items-center gap-4">
-                <span className="loading loading-infinity loading-lg text-primary-500"></span>
-                <span className="text-slate-500 font-bold uppercase tracking-widest text-xs animate-pulse">Syncing Data...</span>
-            </div>
+        <div className="flex flex-col items-center justify-center h-96 space-y-6">
+            <div className="w-16 h-16 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+            <p className="text-sm font-black text-zinc-500 tracking-[0.3em] uppercase">Syncing Portfolio...</p>
         </div>
     );
 
     return (
-        <div className="space-y-12 pb-12">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                <div className="space-y-2">
-                    <h1 className="text-5xl font-black text-white tracking-tight">Showcase Room</h1>
-                    <p className="text-slate-500 text-lg">Curate and manage your collection of digital masterpieces.</p>
+        <div className="space-y-16">
+            {/* Page Header */}
+            <header className="flex flex-col space-y-4">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-violet-600/10 flex items-center justify-center text-violet-400">
+                        <Zap size={24} />
+                    </div>
+                    <div>
+                        <h1 className="text-4xl font-black text-white tracking-tight">Showcase Dashboard</h1>
+                        <p className="text-zinc-500 text-sm font-medium mt-1">Manage and curate your digital existence.</p>
+                    </div>
                 </div>
-                <Link
-                    to="/dashboard/projects/create"
-                    className="bg-white text-black hover:bg-primary-500 hover:text-white px-8 py-4 rounded-2xl flex items-center gap-3 transition-all font-bold active:scale-95 shadow-2xl group"
-                >
-                    <Plus size={22} className="group-hover:rotate-90 transition-transform duration-300" />
-                    Launch Component
-                </Link>
-            </div>
+                
+                <div className="flex items-center gap-4 pt-4">
+                    <Link 
+                        to="/dashboard/projects/create" 
+                        className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3 rounded-xl text-sm font-black text-white hover:shadow-lg hover:shadow-violet-600/20 transition-all active:scale-[0.98]"
+                    >
+                        <Plus size={18} />
+                        New Deployment
+                    </Link>
+                    <div className="h-10 w-[1px] bg-zinc-800 mx-2" />
+                    <div className="flex gap-6">
+                        <div className="text-center">
+                            <span className="block text-xl font-black text-white">{projects.length}</span>
+                            <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Total Projects</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
             {error && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-6 rounded-[2rem] flex items-center gap-4 premium-glass">
-                    <AlertCircle size={24} />
-                    <span className="font-semibold">{error}</span>
+                <div className="p-5 rounded-2xl border border-red-500/10 bg-red-500/5 text-red-400 text-sm flex items-center gap-4">
+                    <AlertCircle size={20} />
+                    {error}
                 </div>
             )}
 
             {projects.length === 0 ? (
-                <div className="premium-glass p-20 rounded-[3rem] text-center space-y-6 border-dashed border-2 border-slate-800">
-                    <div className="w-24 h-24 bg-primary-600/10 rounded-full flex items-center justify-center mx-auto text-primary-500">
-                        <Layers size={48} />
+                <div className="flex flex-col items-center justify-center py-24 bg-[#0c0c0e] rounded-[32px] border border-zinc-900 border-dashed group hover:border-violet-500/50 transition-colors">
+                    <div className="w-20 h-20 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-700 mb-6 group-hover:scale-110 group-hover:bg-violet-600/10 group-hover:text-violet-500 transition-all">
+                        <Box size={40} />
                     </div>
-                    <div>
-                        <h3 className="text-3xl font-bold text-white mb-2">Workspace is Empty</h3>
-                        <p className="text-slate-400 max-w-sm mx-auto">Your portfolio is waiting for its first display. Time to upload your latest creation.</p>
-                    </div>
-                    <Link to="/dashboard/projects/create" className="bg-primary-600 text-white px-8 py-4 rounded-2xl font-bold inline-block hover:shadow-primary-600/20 hover:shadow-lg transition-all">Get Started &rarr;</Link>
+                    <h2 className="text-xl font-bold text-white mb-2">No active deployments</h2>
+                    <p className="text-zinc-500 text-sm max-w-sm text-center leading-relaxed">
+                        Start building your portfolio by deploying your first project to the showcase.
+                    </p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                     {projects.map((project, index) => (
-                        <motion.div
+                        <motion.div 
                             key={project._id}
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="premium-glass rounded-[2.5rem] overflow-hidden group border border-slate-800/50 hover:border-primary-500/50 transition-all duration-700 hover:shadow-primary-500/10 hover:shadow-3xl"
+                            transition={{ delay: index * 0.05 }}
+                            className="premium-card group relative"
                         >
-                            <div className="relative h-60 overflow-hidden m-4 rounded-[1.8rem]">
-                                <img
-                                    src={project.projectImg}
+                            {/* Card Image Wrapper */}
+                            <div className="relative h-56 overflow-hidden rounded-t-[16px]">
+                                <img 
+                                    src={project.projectImg} 
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                                     alt={project.projectTitle}
-                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
-
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="flex gap-2">
-                                        <a href={project.projectLink} target="_blank" className="p-3 bg-white text-black rounded-full hover:bg-primary-500 hover:text-white transition-colors">
-                                            <Eye size={20} />
-                                        </a>
-                                        <button
-                                            onClick={() => handleDelete(project._id)}
-                                            className="p-3 bg-white/10 backdrop-blur-md text-white rounded-full hover:bg-red-500 transition-colors"
-                                        >
-                                            <Trash2 size={20} />
-                                        </button>
-                                    </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-transparent to-transparent opacity-60" />
+                                <div className="absolute top-4 right-4 flex gap-2">
+                                    <button 
+                                        onClick={() => deleteProject(project._id)}
+                                        className="p-2 bg-black/40 backdrop-blur-md rounded-xl text-zinc-400 hover:text-red-400 hover:bg-red-400/20 transition-all"
+                                    >
+                                        <Trash2 size={16} />
+                                    </button>
                                 </div>
-
-                                <div className="absolute bottom-5 left-6 right-6 flex justify-between items-center text-white">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] bg-primary-600 px-3 py-1 rounded-md mb-1 block w-fit">Project</span>
+                                <div className="absolute bottom-4 left-4">
+                                    <div className="flex flex-wrap gap-2">
+                                        {project.projectTags?.slice(0, 3).map((tag: string) => (
+                                            <span key={tag} className="text-[10px] font-black text-white px-2 py-1 bg-violet-600/80 backdrop-blur-md rounded-lg uppercase tracking-wider">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="px-8 pb-8 pt-2 space-y-6">
-                                <div className="space-y-2">
-                                    <h3 className="text-2xl font-black text-white group-hover:text-primary-400 transition-colors leading-tight">{project.projectTitle}</h3>
-                                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-2">{project.projectdesc}</p>
-                                </div>
-
-                                <div className="flex flex-wrap gap-2 text-primary-400">
-                                    {project.projectTags.slice(0, 4).map((tag: string) => (
-                                        <span key={tag} className="text-[11px] font-bold px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-lg">
-                                            #{tag}
-                                        </span>
-                                    ))}
-                                    {project.projectTags.length > 4 && (
-                                        <span className="text-[11px] font-bold px-3 py-1.5 text-slate-600">+{project.projectTags.length - 4}</span>
-                                    )}
-                                </div>
-
-                                <div className="flex items-center justify-between pt-6 border-t border-slate-800/50">
-                                    <a href={project.projectSrcLink} target="_blank" className="flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-xs font-bold font-mono">
-                                        <Github size={16} /> REPOSITORY
-                                    </a>
-                                    <div className="flex items-center gap-1 text-primary-400 font-black text-[10px] tracking-widest uppercase">
-                                        Live Preview <ChevronRight size={12} />
+                            <div className="p-8 space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-xl font-black text-white group-hover:text-violet-400 transition-colors">{project.projectTitle}</h3>
+                                    <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+                                        <Terminal size={14} className="text-zinc-500" />
                                     </div>
+                                </div>
+                                
+                                <p className="text-zinc-500 text-sm line-clamp-2 leading-relaxed h-10">
+                                    {project.projectdesc}
+                                </p>
+
+                                <div className="pt-6 border-t border-zinc-800/50 flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-violet-500 shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
+                                        <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Active Live</span>
+                                    </div>
+                                    <a 
+                                        href={project.projectLink} 
+                                        target="_blank" 
+                                        rel="noreferrer"
+                                        className="p-2 text-zinc-500 hover:text-white transition-colors"
+                                    >
+                                        <ExternalLink size={18} />
+                                    </a>
                                 </div>
                             </div>
                         </motion.div>

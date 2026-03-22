@@ -1,19 +1,17 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FolderPlus, Mail, LogOut, Menu, X, Rocket, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { LayoutDashboard, FolderPlus, Mail, LogOut, Code, ChevronRight, User, Settings, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useAuth } from '../../hooks/useAuth.tsx';
 
 const AdminLayout = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const location = useLocation();
     const { logout } = useAuth();
 
     const menuItems = [
         { path: '/dashboard', icon: <LayoutDashboard size={20} />, label: 'Overview' },
-        { path: '/dashboard/projects', icon: <Rocket size={20} />, label: 'All Projects' },
-        { path: '/dashboard/projects/create', icon: <FolderPlus size={20} />, label: 'New Project' },
-        { path: '/dashboard/mails', icon: <Mail size={20} />, label: 'Messages' },
+        { path: '/dashboard/projects', icon: <Code size={20} />, label: 'Workshops' },
+        { path: '/dashboard/projects/create', icon: <FolderPlus size={20} />, label: 'Publish Work' },
+        { path: '/dashboard/mails', icon: <Mail size={20} />, label: 'Collaborators' },
     ];
 
     const isActive = (path: string) => {
@@ -23,110 +21,101 @@ const AdminLayout = () => {
     };
 
     return (
-        <div className="flex min-h-screen text-slate-100 font-jakarta overflow-hidden">
-            {/* Sidebar */}
-            <motion.aside 
-                initial={false}
-                animate={{ width: isSidebarOpen ? 280 : 100 }}
-                className="bg-slate-900/40 backdrop-blur-xl border-r border-slate-800/50 flex flex-col z-30 relative"
-            >
-                <div className="p-8 flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary-600 rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-primary-600/30 shrink-0">
-                        <Rocket size={26} />
+        <div className="flex h-screen bg-[#0a0a0c] text-zinc-300 font-jakarta overflow-hidden">
+            {/* Premium Sidebar */}
+            <aside className="w-72 bg-[#0c0c0e] border-r border-zinc-800/50 flex flex-col relative z-20">
+                <div className="p-8 mb-4">
+                    <div className="flex items-center gap-3 text-white">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
+                            <Globe size={20} className="text-white" />
+                        </div>
+                        <div>
+                            <span className="font-black text-lg tracking-tight block leading-none">Marcus</span>
+                            <span className="text-[10px] font-bold text-violet-400 uppercase tracking-widest mt-1 block">Project Hub</span>
+                        </div>
                     </div>
-                    {isSidebarOpen && (
-                        <motion.div 
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="flex flex-col"
-                        >
-                            <span className="font-bold text-lg tracking-tight leading-none">Portfolio</span>
-                            <span className="text-primary-400 text-xs font-bold uppercase tracking-widest mt-1">Admin Pro</span>
-                        </motion.div>
-                    )}
                 </div>
 
-                <nav className="flex-1 mt-8 px-4 space-y-2">
-                    {menuItems.map((item) => (
-                        <Link 
-                            key={item.path} 
-                            to={item.path}
-                            className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 group ${
-                                isActive(item.path) 
-                                ? 'bg-primary-600/10 text-primary-400 border border-primary-600/20' 
-                                : 'text-slate-500 hover:bg-slate-800/40 hover:text-slate-300'
-                            }`}
-                        >
-                            <span className={`${isActive(item.path) ? 'text-primary-400' : 'group-hover:scale-110 transition-transform'}`}>
-                                {item.icon}
-                            </span>
-                            {isSidebarOpen && (
-                                <motion.div 
-                                    initial={{ opacity: 0 }} 
-                                    animate={{ opacity: 1 }}
-                                    className="flex-1 flex justify-between items-center"
-                                >
-                                    <span className="font-semibold">{item.label}</span>
-                                    {isActive(item.path) && <ChevronRight size={14} className="opacity-50" />}
-                                </motion.div>
-                            )}
-                        </Link>
-                    ))}
+                <nav className="flex-1 px-4 space-y-2">
+                    <div className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em] px-4 mb-4">Navigation</div>
+                    {menuItems.map((item) => {
+                        const active = isActive(item.path);
+                        return (
+                            <Link 
+                                key={item.path} 
+                                to={item.path}
+                                className={`group flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 relative overflow-hidden ${
+                                    active 
+                                    ? 'text-white' 
+                                    : 'text-zinc-500 hover:text-zinc-200'
+                                }`}
+                            >
+                                {active && (
+                                    <motion.div 
+                                        layoutId="activeTab"
+                                        className="absolute inset-0 bg-violet-600/10 border border-violet-500/20"
+                                        style={{ borderRadius: '16px' }}
+                                    />
+                                )}
+                                <span className={`${active ? 'text-violet-400' : 'group-hover:text-violet-400'} transition-colors duration-300`}>
+                                    {item.icon}
+                                </span>
+                                <span className="font-bold text-sm leading-none relative z-10">{item.label}</span>
+                                {active && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-500 shadow-[0_0_8px_rgba(139,92,246,0.5)]" />}
+                            </Link>
+                        );
+                    })}
                 </nav>
 
-                <div className="p-6 space-y-4">
-                    <button 
-                        onClick={logout}
-                        className="flex items-center justify-center gap-4 p-4 w-full rounded-2xl bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 font-bold group shadow-lg shadow-red-500/5"
-                    >
-                        <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
-                        {isSidebarOpen && <span>Leave Session</span>}
-                    </button>
-                    
-                    <button 
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="p-3 w-full flex justify-center text-slate-600 hover:text-slate-300 transition-colors border border-slate-800/50 rounded-xl"
-                    >
-                        {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
-                    </button>
-                </div>
-            </motion.aside>
-
-            {/* Main Content Area */}
-            <div className="flex-1 flex flex-col h-screen overflow-hidden">
-                {/* Top Navbar */}
-                <header className="h-20 border-b border-slate-800/50 flex items-center justify-between px-10 bg-slate-950/20 backdrop-blur-md z-20">
-                    <div className="flex items-center gap-2">
-                        <span className="text-slate-500 text-sm">Pages</span>
-                        <ChevronRight size={14} className="text-slate-700" />
-                        <span className="text-white font-bold">{menuItems.find(m => isActive(m.path))?.label || 'Overview'}</span>
+                <div className="p-6 mt-auto">
+                    <div className="bg-[#141417] border border-zinc-800/50 rounded-2xl p-4 mb-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 rounded-xl bg-zinc-800 flex items-center justify-center border border-zinc-700 shadow-inner">
+                                <User size={20} className="text-zinc-400" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-sm font-black text-white">Marcus</span>
+                                <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Super Admin</span>
+                            </div>
+                        </div>
+                        <button 
+                            onClick={logout}
+                            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:bg-red-500/5 hover:border-red-500/20 hover:text-red-400 transition-all text-xs font-black uppercase tracking-widest"
+                        >
+                            <LogOut size={14} />
+                            Exit Session
+                        </button>
                     </div>
-                    
+                </div>
+            </aside>
+
+            {/* Main Workspace */}
+            <div className="flex-1 flex flex-col relative overflow-hidden">
+                {/* Background Accent */}
+                <div className="absolute top-[-100px] right-[-100px] w-96 h-96 bg-violet-600/5 blur-[120px] rounded-full pointer-events-none" />
+
+                <header className="h-20 border-b border-zinc-800/50 flex items-center px-12 justify-between bg-[#0a0a0c]/80 backdrop-blur-md sticky top-0 z-10">
+                    <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
+                        <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">System Online</span>
+                    </div>
                     <div className="flex items-center gap-4">
-                        <div className="flex flex-col items-end mr-2">
-                            <span className="text-white font-bold text-sm">Marcus</span>
-                            <span className="text-primary-400 text-[10px] uppercase font-bold tracking-widest">Super Admin</span>
-                        </div>
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-600 to-purple-600 border-2 border-slate-800 p-0.5">
-                            <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center font-bold text-xs">MA</div>
-                        </div>
+                        <button className="p-2 text-zinc-500 hover:text-white transition-colors bg-zinc-900/50 border border-zinc-800/50 rounded-lg">
+                            <Settings size={18} />
+                        </button>
                     </div>
                 </header>
 
-                {/* Content */}
-                <main className="flex-1 overflow-y-auto p-10 relative custom-scrollbar">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={location.pathname}
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.98 }}
-                            transition={{ duration: 0.4, ease: "easeOut" }}
-                            className="max-w-7xl mx-auto"
-                        >
-                            <Outlet />
-                        </motion.div>
-                    </AnimatePresence>
+                <main className="flex-1 overflow-y-auto p-12 lg:p-16 custom-scrollbar relative">
+                    <motion.div
+                        key={location.pathname}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="max-w-6xl mx-auto"
+                    >
+                        <Outlet />
+                    </motion.div>
                 </main>
             </div>
         </div>
