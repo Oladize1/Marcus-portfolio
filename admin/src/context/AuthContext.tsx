@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api.ts';
 
@@ -17,15 +18,29 @@ type ApiError = {
     };
 };
 
-export const useAuth = () => {
+interface AuthContextType {
+    user: AuthUser | null;
+    loading: boolean;
+    login: (username: string, password: string) => Promise<LoginResult>;
+    logout: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<AuthUser | null>(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const checkAuth = async () => {
         try {
-            await api.get('/mail');
-            setUser({ role: 'admin' });
+            const response = await api.get('/admin/me');
+            if (response.status === 200) {
+                setUser({ role: 'admin' });
+            } else {
+                setUser(null);
+                localStorage.removeItem('isLoggedIn');
+            }
         } catch (error) {
             setUser(null);
             localStorage.removeItem('isLoggedIn');
@@ -66,5 +81,17 @@ export const useAuth = () => {
         }
     };
 
-    return { user, loading, login, logout };
+    return (
+        <AuthContext.Provider value={{ user, loading, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
+
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (context === undefined) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
 };
