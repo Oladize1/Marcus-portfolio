@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "tsx watch --env-file=.env index.ts",
     "start": "node --env-file=.env --watch index.js",
-    "build": "tsx"
+    "build": "tsx",
+    "seed:admin": "tsx --env-file=.env admin.ts"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
@@ -21,8 +22,11 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
+    "cookie-parser": "^1.4.7",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.3.1",
     "morgan": "^1.10.1",
     "multer": "^2.1.1",

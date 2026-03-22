@@ -19,6 +19,11 @@ export const getProjects: RequestHandler = async (req, res) => {
 
 export const createProject: RequestHandler = async (req, res) => {
     try {
+        const { role } = req.user;
+        if (role !== "admin") {
+          res.status(401).json("UnAuthorized");
+          return;
+        }
         const file = req.file;
 
         if (!file) {
@@ -63,6 +68,11 @@ export const createProject: RequestHandler = async (req, res) => {
 
 export const editProject: RequestHandler = async (req, res) => {
     try {
+        const { role } = req.user;
+        if (role !== "admin") {
+          res.status(401).json("UnAuthorized");
+          return;
+        }
         const {id} = req.params
         const {
           projectTitle,
@@ -105,6 +115,11 @@ export const editProject: RequestHandler = async (req, res) => {
 
 export const deleteProject: RequestHandler = async (req, res) => {
     try {
+        const { role } = req.user;
+        if (role !== "admin") {
+          res.status(401).json("UnAuthorized");
+          return;
+        }
         const {id} = req.params
         const project = await Project.findByIdAndDelete(id)
         if (!project) {
