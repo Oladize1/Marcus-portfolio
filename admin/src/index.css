@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: ["dark", "luxury"];
+}
+
+:root {
+    --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+}
+
+@theme {
+    --font-display: 'Plus Jakarta Sans', "sans-serif";
+    --color-primary-50: #f5f3ff;
+    --color-primary-100: #ede9fe;
+    --color-primary-400: #a78bfa;
+    --color-primary-500: #8b5cf6;
+    --color-primary-600: #7c3aed;
+    --color-primary-900: #4c1d95;
+    
+    --color-slate-900: #0f172a;
+    --color-slate-950: #020617;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #020617;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.15) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.1) 0, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.1) 0, transparent 50%);
+    color: #f1f5f9;
+    min-height: 100vh;
+}
+
+.premium-glass {
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+        0 2px 4px -1px rgba(0, 0, 0, 0.06),
+        inset 0 0 20px 0 rgba(255, 255, 255, 0.02);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sidebar-item-active {
+    background: linear-gradient(90deg, rgba(124, 58, 237, 0.2) 0%, transparent 100%);
+    color: #a78bfa;
+    border-left: 3px solid #7c3aed;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}

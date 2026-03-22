@@ -11,7 +11,7 @@ const AboutMePage = () => {
 	          <div className="relative group mb-6">
 	            <div className="absolute -inset-1 bg-gradient-to-r from-primary-600 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
 	            <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl transform hover:scale-[1.02] transition-transform duration-500">
-	              <img src="./marcus-pic.jpg" loading='lazy' alt="Profile of Marcus Oladunjoye" keywords="developer, coding, professional, portrait" className="w-full h-full object-cover" />
+	              <img src="./marcus-pic.png" loading='lazy' alt="Profile of Marcus Oladunjoye" keywords="developer, coding, professional, portrait" className="w-full h-full object-cover" />
 	            </div>
 	          </div>
 	          
