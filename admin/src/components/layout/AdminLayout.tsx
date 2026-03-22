@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, FolderPlus, Mail, LogOut, Code, Menu, X, User } from 'lucide-react';
-import { useAuth } from '../../hooks/useAuth.tsx';
+import { useAuth } from '../../context/AuthContext.tsx';
 import { useState } from 'react';
 
 const navItems = [

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth.tsx';
+import { useAuth } from '../context/AuthContext.tsx';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
