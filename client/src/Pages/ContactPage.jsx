@@ -1,4 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const ContactPage = () => {
 	const [formData, setFormData] = useState({
@@ -12,11 +14,17 @@ const ContactPage = () => {
      setFormData({ ...formData, [e.target.id]: e.target.value });
    };
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
      e.preventDefault();
-     // TODO: Add submission logic here (e.g., send to API or email service)
-     console.log("Form submitted:", formData); // For testing
-     alert("Message sent!"); // Placeholder feedback
+     await axios.post(`${apiUrl}/mail/send`, formData)
+     console.log("Form submitted:", formData);
+     setFormData({
+       name: "",
+       email: "",
+       subject: "",
+       message: "",
+      });
+      alert("Message sent!");
    };
   return (
     <section className="py-12 bg-gray-50 dark:bg-gray-800 px-4 sm:px-6 relative overflow-hidden">

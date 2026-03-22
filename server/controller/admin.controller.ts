@@ -5,12 +5,12 @@ import { RequestHandler } from "express";
 
 export const login: RequestHandler = async (req, res) => {
     try {
-        const {username, password} = req.body
+        const { username, password } = req.body
         if (!username || !password) {
             res.status(400).json("All fields are required")
             return;
         }
-        const admin = await Admin.findOne({username})
+        const admin = await Admin.findOne({ username })
         if (!admin) {
             res.status(404).json("User Not Found")
             return
@@ -20,10 +20,10 @@ export const login: RequestHandler = async (req, res) => {
             res.status(400).json('Invalid credentials')
             return
         }
-        const token = jwt.sign({id: admin._id, role: admin.role} ,process.env.JWT_SECRET!, {expiresIn: '7d'})
+        const token = jwt.sign({ id: admin._id, role: admin.role }, process.env.JWT_SECRET!, { expiresIn: '7d' })
         res.cookie("token", token, {
-          httpOnly: true,
-          maxAge: 7 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         res.status(200).json("login sucessful")
         return
