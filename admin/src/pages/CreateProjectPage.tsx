@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api.ts';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Upload, Check, AlertCircle, X, Image as ImageIcon, Sparkles, Send } from 'lucide-react';
+import { ArrowLeft, Upload, AlertCircle, X, Image as ImageIcon, Sparkles, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const CreateProjectPage = () => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api.ts';
 import { motion } from 'framer-motion';
-import { Trash2, Calendar, User, AtSign, Inbox, Search, Clock, MailOpen, ChevronRight } from 'lucide-react';
+import { Trash2, AtSign, Inbox, Search, Clock, MailOpen } from 'lucide-react';
 
 const MailsPage = () => {
     const [mails, setMails] = useState<any[]>([]);
