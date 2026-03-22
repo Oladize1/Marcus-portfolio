@@ -1,32 +1,42 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api.ts';
 import { motion } from 'framer-motion';
-import { Trash2, ExternalLink, Github, Plus, Layers, AlertCircle, Briefcase, Eye, ChevronRight } from 'lucide-react';
+import { Trash2, Github, Plus, Layers, AlertCircle, Eye, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+type Project = {
+    _id: string;
+    projectImg: string;
+    projectTitle: string;
+    projectdesc: string;
+    projectLink: string;
+    projectSrcLink?: string;
+    projectTags: string[];
+};
+
 const DashboardPage = () => {
-    const [projects, setProjects] = useState<any[]>([]);
+    const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     const fetchProjects = async () => {
         try {
-            const response = await api.get('/projects');
+            const response = await api.get<Project[]>('/projects');
             if (Array.isArray(response.data)) {
                 setProjects(response.data);
             } else {
                 setProjects([]);
             }
-        } catch (error) {
-            setError('Failed to load projects');
-            console.error(error);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchProjects();
+        fetchProjects().catch((fetchError) => {
+            setError('Failed to load projects');
+            console.error(fetchError);
+        });
     }, []);
 
     const handleDelete = async (id: string) => {
@@ -34,8 +44,8 @@ const DashboardPage = () => {
 
         try {
             await api.delete(`/projects/${id}/delete`);
-            setProjects(projects.filter(p => p._id !== id));
-        } catch (error) {
+            setProjects((currentProjects) => currentProjects.filter((project) => project._id !== id));
+        } catch {
             alert('Failed to delete project');
         }
     };
@@ -103,7 +113,7 @@ const DashboardPage = () => {
 
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <div className="flex gap-2">
-                                        <a href={project.projectLink} target="_blank" className="p-3 bg-white text-black rounded-full hover:bg-primary-500 hover:text-white transition-colors">
+                                        <a href={project.projectLink} target="_blank" rel="noreferrer" className="p-3 bg-white text-black rounded-full hover:bg-primary-500 hover:text-white transition-colors">
                                             <Eye size={20} />
                                         </a>
                                         <button
@@ -127,7 +137,7 @@ const DashboardPage = () => {
                                 </div>
 
                                 <div className="flex flex-wrap gap-2 text-primary-400">
-                                    {project.projectTags.slice(0, 4).map((tag: string) => (
+                                    {project.projectTags.slice(0, 4).map((tag) => (
                                         <span key={tag} className="text-[11px] font-bold px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-lg">
                                             #{tag}
                                         </span>
@@ -137,14 +147,16 @@ const DashboardPage = () => {
                                     )}
                                 </div>
 
-                                <div className="flex items-center justify-between pt-6 border-t border-slate-800/50">
-                                    <a href={project.projectSrcLink} target="_blank" className="flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-xs font-bold font-mono">
-                                        <Github size={16} /> REPOSITORY
-                                    </a>
-                                    <div className="flex items-center gap-1 text-primary-400 font-black text-[10px] tracking-widest uppercase">
-                                        Live Preview <ChevronRight size={12} />
+                                {project.projectSrcLink && (
+                                    <div className="flex items-center justify-between pt-6 border-t border-slate-800/50">
+                                        <a href={project.projectSrcLink} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-xs font-bold font-mono">
+                                            <Github size={16} /> REPOSITORY
+                                        </a>
+                                        <div className="flex items-center gap-1 text-primary-400 font-black text-[10px] tracking-widest uppercase">
+                                            Live Preview <ChevronRight size={12} />
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </motion.div>
                     ))}

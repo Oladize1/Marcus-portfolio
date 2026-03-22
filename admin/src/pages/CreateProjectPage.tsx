@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { isAxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api.ts';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Upload, Check, AlertCircle, X, Image as ImageIcon, Sparkles, Send } from 'lucide-react';
+import { ArrowLeft, Upload, AlertCircle, X, Image as ImageIcon, Sparkles, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const CreateProjectPage = () => {
@@ -63,8 +64,12 @@ const CreateProjectPage = () => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             navigate('/dashboard');
-        } catch (error: any) {
-            setError(error.response?.data || 'Submission failed. Please check your data.');
+        } catch (error: unknown) {
+            if (isAxiosError(error)) {
+                setError(error.response?.data || 'Submission failed. Please check your data.');
+            } else {
+                setError('Submission failed. Please check your data.');
+            }
         } finally {
             setLoading(false);
         }

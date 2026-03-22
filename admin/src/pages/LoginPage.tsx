@@ -17,7 +17,7 @@ const LoginPage = () => {
         
         const result = await login(username, password);
         if (!result.success) {
-            setError(result.message);
+            setError(result.message ?? 'Login failed');
         }
         setIsSubmitting(false);
     };
@@ -121,7 +121,7 @@ const LoginPage = () => {
                                 <span className="loading loading-spinner loading-sm"></span>
                             ) : (
                                 <>
-                                    Authenticating...
+                                    Sign In
                                     <LogIn size={20} className="transition-transform group-hover:translate-x-1" />
                                 </>
                             )}

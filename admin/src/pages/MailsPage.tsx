@@ -1,46 +1,56 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api.ts';
 import { motion } from 'framer-motion';
-import { Trash2, Calendar, User, AtSign, Inbox, Search, Clock, MailOpen, ChevronRight } from 'lucide-react';
+import { Trash2, AtSign, Inbox, Search, Clock, MailOpen } from 'lucide-react';
+
+type Mail = {
+    _id: string;
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    createdAt: string;
+};
 
 const MailsPage = () => {
-    const [mails, setMails] = useState<any[]>([]);
+    const [mails, setMails] = useState<Mail[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
     const fetchMails = async () => {
         try {
-            const response = await api.get('/mail');
+            const response = await api.get<Mail[]>('/mail');
             if (Array.isArray(response.data)) {
                 setMails(response.data);
             } else {
                 setMails([]);
             }
-        } catch (error) {
-            console.error('Failed to fetch mails', error);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchMails();
+        fetchMails().catch((fetchError) => {
+            console.error('Failed to fetch mails', fetchError);
+        });
     }, []);
 
     const handleDelete = async (id: string) => {
         if (!window.confirm('Archive this message permanently?')) return;
         try {
             await api.delete(`/mail/${id}/delete_email`);
-            setMails(mails.filter(m => m._id !== id));
-        } catch (error) {
+            setMails((currentMails) => currentMails.filter((mail) => mail._id !== id));
+        } catch {
             alert('Operation failed.');
         }
     };
 
-    const filteredMails = mails.filter(mail => 
-        mail.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        mail.subject?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        mail.message?.toLowerCase().includes(searchTerm.toLowerCase())
+    const normalizedSearchTerm = searchTerm.toLowerCase();
+    const filteredMails = mails.filter((mail) =>
+        mail.name.toLowerCase().includes(normalizedSearchTerm) ||
+        mail.subject.toLowerCase().includes(normalizedSearchTerm) ||
+        mail.message.toLowerCase().includes(normalizedSearchTerm)
     );
 
     if (loading) return (
@@ -59,10 +69,10 @@ const MailsPage = () => {
                     <h1 className="text-5xl font-black tracking-tight">Communication</h1>
                     <p className="text-slate-500 text-lg">Your nexus for project inquiries and networking.</p>
                 </div>
-                
+
                 <div className="relative w-full lg:w-96 group">
                     <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-primary-400 transition-colors" size={20} />
-                    <input 
+                    <input
                         type="text"
                         placeholder="Filter inbox..."
                         value={searchTerm}
@@ -92,9 +102,8 @@ const MailsPage = () => {
                             transition={{ delay: index * 0.05 }}
                             className="premium-glass p-8 rounded-[2.5rem] border border-slate-800/40 hover:border-primary-600/30 transition-all group relative overflow-hidden"
                         >
-                            {/* Accent line */}
                             <div className="absolute top-0 bottom-0 left-0 w-1.5 bg-primary-600/20 group-hover:bg-primary-600 transition-colors duration-500" />
-                            
+
                             <div className="flex flex-col xl:flex-row justify-between gap-10">
                                 <div className="space-y-6 flex-1">
                                     <div className="flex flex-wrap items-center gap-4">
@@ -104,7 +113,7 @@ const MailsPage = () => {
                                             </div>
                                             <span className="font-bold text-white">{mail.name}</span>
                                         </div>
-                                        
+
                                         <div className="flex items-center gap-2 text-slate-500 bg-slate-900/40 px-4 py-2 rounded-2xl border border-slate-800/50 text-xs font-bold font-mono uppercase tracking-widest">
                                             <AtSign size={14} className="text-primary-500/60" />
                                             {mail.email}
@@ -115,7 +124,7 @@ const MailsPage = () => {
                                             {new Date(mail.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </div>
                                     </div>
-                                    
+
                                     <div className="space-y-3">
                                         <h3 className="text-2xl font-black text-white group-hover:text-primary-400 transition-colors flex items-center gap-3">
                                             {mail.subject}
@@ -126,9 +135,9 @@ const MailsPage = () => {
                                         </p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex xl:flex-col justify-end gap-3 shrink-0 self-end xl:self-start">
-                                    <button 
+                                    <button
                                         onClick={() => handleDelete(mail._id)}
                                         className="p-5 bg-red-500/5 text-red-500 hover:bg-red-500 hover:text-white rounded-[1.5rem] transition-all duration-300 shadow-lg shadow-red-500/5 transform hover:scale-105"
                                         title="Send to Trash"
