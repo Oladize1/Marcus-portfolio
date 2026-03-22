@@ -2,24 +2,34 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api.ts';
 
+type AuthUser = {
+    role: 'admin';
+};
+
+type LoginResult = {
+    success: boolean;
+    message?: string;
+};
+
+type ApiError = {
+    response?: {
+        data?: string;
+    };
+};
+
 export const useAuth = () => {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<AuthUser | null>(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const checkAuth = async () => {
         try {
-            // Check if user is logged in by hitting a protected profile link or just checking localStorage
-            // For now, we'll use a simple "logged_in" flag in localStorage for UI purposes, 
-            // but the actual security is in the httpOnly cookies handled by the server.
             const status = localStorage.getItem('isLoggedIn');
             if (status === 'true') {
                 setUser({ role: 'admin' });
             } else {
                 setUser(null);
             }
-        } catch (error) {
-            setUser(null);
         } finally {
             setLoading(false);
         }
@@ -29,15 +39,20 @@ export const useAuth = () => {
         checkAuth();
     }, []);
 
-    const login = async (username: string, password: string) => {
+    const login = async (username: string, password: string): Promise<LoginResult> => {
         try {
             await api.post('/admin/login', { username, password });
             localStorage.setItem('isLoggedIn', 'true');
             setUser({ role: 'admin' });
             navigate('/');
             return { success: true };
-        } catch (error: any) {
-            return { success: false, message: error.response?.data || 'Login failed' };
+        } catch (error) {
+            const apiError = error as ApiError;
+
+            return {
+                success: false,
+                message: apiError.response?.data || 'Login failed',
+            };
         }
     };
 

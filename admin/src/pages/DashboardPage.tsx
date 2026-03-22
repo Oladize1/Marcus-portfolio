@@ -1,11 +1,21 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api.ts';
 import { motion } from 'framer-motion';
-import { Trash2, ExternalLink, Github, Plus, Layers, AlertCircle, Briefcase, Eye, ChevronRight } from 'lucide-react';
+import { Trash2, Github, Plus, Layers, AlertCircle, Eye, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+type Project = {
+    _id: string;
+    projectImg: string;
+    projectTitle: string;
+    projectdesc: string;
+    projectTags: string[];
+    projectLink: string;
+    projectSrcLink?: string;
+};
+
 const DashboardPage = () => {
-    const [projects, setProjects] = useState<any[]>([]);
+    const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -35,7 +45,7 @@ const DashboardPage = () => {
         try {
             await api.delete(`/projects/${id}/delete`);
             setProjects(projects.filter(p => p._id !== id));
-        } catch (error) {
+        } catch {
             alert('Failed to delete project');
         }
     };
