@@ -7,11 +7,15 @@ import bcrypt from 'bcryptjs'
     try {
         const adminUsername = process.env.ADMIN_USERNAME
         const adminPassword = process.env.ADMIN_PASSWORD
-        const uri = process.env.MONGO_URI
-        if (!uri) {
-          throw new Error("MONGO_URI is missing");
+        let env = process.env.NODE_ENV;
+        let uri: string;
+        if (env === "development") {
+          uri = process.env.MONGO_URI!;
+        } else if (env === "production") {
+          uri = process.env.MONGO_URI_ATLAS!;
+        } else {
+          throw new Error("NODE ENV not set");
         }
-
         await connectDb(uri);
         if (!adminUsername || !adminPassword) {
             throw new Error("Missing admin credentials in env");
