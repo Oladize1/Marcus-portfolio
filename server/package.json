@@ -11,16 +11,14 @@
     "start": "node dist/index.js",
     "seed:admin": "tsx --env-file=.env admin.ts"
   },
-  "devDependencies": {
+  "dependencies": {
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/multer": "^2.1.0",
     "@types/node": "^22.15.3",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
-  },
-  "dependencies": {
+    "typescript": "^5.8.3",
+    "tsx": "^4.21.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",
@@ -30,7 +28,9 @@
     "mongoose": "^9.3.1",
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
-    "nodemailer": "^8.0.3",
-    "tsx": "^4.21.0"
+    "nodemailer": "^8.0.3"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
   }
 }
