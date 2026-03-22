@@ -17,7 +17,7 @@ const LoginPage = () => {
         
         const result = await login(username, password);
         if (!result.success) {
-            setError(result.message);
+            setError(result.message || 'Login failed');
         }
         setIsSubmitting(false);
     };
@@ -93,11 +93,14 @@ const LoginPage = () => {
                             className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-black py-4 rounded-xl shadow-lg shadow-violet-600/20 transition-all active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-3 text-sm mt-8"
                         >
                             {isSubmitting ? (
-                                <span className="loading loading-spinner text-white"></span>
+                                <>
+                                    Authenticating...
+                                    <span className="loading loading-spinner loading-sm"></span>
+                                </>
                             ) : (
                                 <>
-                                    <span>Sign in to Dashboard</span>
-                                    <LogIn size={18} />
+                                    Sign In
+                                    <LogIn size={20} className="transition-transform group-hover:translate-x-1" />
                                 </>
                             )}
                         </button>
