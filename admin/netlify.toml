@@ -13,7 +13,7 @@
   status = 200
 
 [[redirects]]
-  from = "/dashboard"
+  from = "/about-me"
   to = "/index.html"
   status = 200
 
@@ -23,7 +23,12 @@
   status = 200
 
 [[redirects]]
-  from = "/emails"
+  from = "/my-skills"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact-me"
   to = "/index.html"
   status = 200
 
