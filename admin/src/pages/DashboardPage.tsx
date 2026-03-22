@@ -1,172 +1,166 @@
 import { useEffect, useState } from 'react';
-import api from '../services/api.ts';
-import { motion } from 'framer-motion';
-import { Trash2, Github, Plus, Layers, AlertCircle, Eye, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import api from '../services/api.ts';
+import { FolderGit2, Calendar, Mail, ArrowRight, Clock } from 'lucide-react';
 
-type Project = {
+type MailItem = {
     _id: string;
-    projectImg: string;
-    projectTitle: string;
-    projectdesc: string;
-    projectTags: string[];
-    projectLink: string;
-    projectSrcLink?: string;
+    fullname?: string;
+    name?: string;
+    email: string;
+    subject: string;
+    message: string;
+    createdAt: string;
 };
 
 const DashboardPage = () => {
-    const [projects, setProjects] = useState<Project[]>([]);
+    const [projectsCount, setProjectsCount] = useState(0);
+    const [messagesCount, setMessagesCount] = useState(0);
+    const [recentMails, setRecentMails] = useState<MailItem[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchProjects = async () => {
+        const fetchData = async () => {
             try {
-                const response = await api.get('/projects');
-                setProjects(Array.isArray(response.data) ? response.data : []);
-            } catch (err: any) {
-                setError('Unable to sync workspace data');
+                const [projectsRes, mailsRes] = await Promise.all([
+                    api.get('/projects'),
+                    api.get('/mail')
+                ]);
+                setProjectsCount(Array.isArray(projectsRes.data) ? projectsRes.data.length : 0);
+                
+                const mails = Array.isArray(mailsRes.data) ? mailsRes.data : [];
+                setMessagesCount(mails.length);
+                setRecentMails(mails.slice(0, 5)); // Get top 5 recent messages
+            } catch (error) {
+                console.error('Failed to fetch dashboard data:', error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchProjects();
+        fetchData();
     }, []);
 
-    const deleteProject = async (id: string) => {
-        if (!window.confirm('Are you sure you want to archive this project?')) return;
-        try {
-            await api.delete(`/projects/${id}`);
-            setProjects(projects.filter(p => p._id !== id));
-        } catch {
-            alert('Failed to delete project');
-        }
-    };
+    const displayName = (mail: MailItem) => mail.fullname || mail.name || 'Unknown';
 
-    if (loading) return (
-        <div className="flex flex-col items-center justify-center h-96 space-y-6">
-            <div className="w-16 h-16 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
-            <p className="text-sm font-black text-zinc-500 tracking-[0.3em] uppercase">Syncing Portfolio...</p>
-        </div>
-    );
+    if (loading) {
+        return (
+            <div className="space-y-6 animate-pulse">
+                <div className="flex justify-between items-center">
+                    <div className="h-8 bg-slate-800 rounded w-48"></div>
+                    <div className="h-10 bg-slate-800 rounded w-32"></div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div className="bg-slate-900 border border-slate-800 rounded-2xl h-24"></div>
+                    <div className="bg-slate-900 border border-slate-800 rounded-2xl h-24"></div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3].map(i => (
+                        <div key={i} className="bg-slate-900 border border-slate-800 rounded-2xl h-80"></div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="space-y-16">
-            {/* Page Header */}
-            <header className="flex flex-col space-y-4">
-                <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-violet-600/10 flex items-center justify-center text-violet-400">
-                        <Zap size={24} />
-                    </div>
-                    <div>
-                        <h1 className="text-4xl font-black text-white tracking-tight">Showcase Dashboard</h1>
-                        <p className="text-zinc-500 text-sm font-medium mt-1">Manage and curate your digital existence.</p>
-                    </div>
+        <div className="space-y-8">
+            {/* Header & Stats */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold text-white tracking-tight">Overview</h1>
+                    <p className="text-slate-400 mt-1">Manage all your portfolio projects in one place.</p>
                 </div>
-                
-                <div className="flex items-center gap-4 pt-4">
-                    <Link 
-                        to="/dashboard/projects/create" 
-                        className="flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3 rounded-xl text-sm font-black text-white hover:shadow-lg hover:shadow-violet-600/20 transition-all active:scale-[0.98]"
-                    >
-                        <Plus size={18} />
-                        New Deployment
-                    </Link>
-                    <div className="h-10 w-[1px] bg-zinc-800 mx-2" />
-                    <div className="flex gap-6">
-                        <div className="text-center">
-                            <span className="block text-xl font-black text-white">{projects.length}</span>
-                            <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Total Projects</span>
+                <Link
+                    to="/dashboard/projects"
+                    className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2.5 px-5 rounded-lg border border-slate-700 transition-colors shadow-sm"
+                >
+                    <FolderGit2 size={18} />
+                    Manage Projects
+                </Link>
+            </div>
+
+            {/* Metrics Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-center border-l-4 border-l-indigo-500 shadow-sm">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-indigo-500/10 rounded-xl">
+                            <FolderGit2 className="text-indigo-500 w-8 h-8" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium text-slate-400">Total Projects</p>
+                            <h3 className="text-3xl font-bold text-white tracking-tight">{projectsCount}</h3>
                         </div>
                     </div>
                 </div>
-            </header>
-
-            {error && (
-                <div className="p-5 rounded-2xl border border-red-500/10 bg-red-500/5 text-red-400 text-sm flex items-center gap-4">
-                    <AlertCircle size={20} />
-                    {error}
-                </div>
-            )}
-
-            {projects.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-24 bg-[#0c0c0e] rounded-[32px] border border-zinc-900 border-dashed group hover:border-violet-500/50 transition-colors">
-                    <div className="w-20 h-20 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-700 mb-6 group-hover:scale-110 group-hover:bg-violet-600/10 group-hover:text-violet-500 transition-all">
-                        <Box size={40} />
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-center border-l-4 border-l-purple-500 shadow-sm">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-purple-500/10 rounded-xl">
+                            <Calendar className="text-purple-500 w-8 h-8" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium text-slate-400">Total Messages</p>
+                            <h3 className="text-3xl font-bold text-white tracking-tight">{messagesCount}</h3>
+                        </div>
                     </div>
-                    <h2 className="text-xl font-bold text-white mb-2">No active deployments</h2>
-                    <p className="text-zinc-500 text-sm max-w-sm text-center leading-relaxed">
-                        Start building your portfolio by deploying your first project to the showcase.
-                    </p>
                 </div>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-                    {projects.map((project, index) => (
-                        <motion.div 
-                            key={project._id}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.05 }}
-                            className="premium-card group relative"
-                        >
-                            {/* Card Image Wrapper */}
-                            <div className="relative h-56 overflow-hidden rounded-t-[16px]">
-                                <img 
-                                    src={project.projectImg} 
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                                    alt={project.projectTitle}
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-transparent to-transparent opacity-60" />
-                                <div className="absolute top-4 right-4 flex gap-2">
-                                    <button 
-                                        onClick={() => deleteProject(project._id)}
-                                        className="p-2 bg-black/40 backdrop-blur-md rounded-xl text-zinc-400 hover:text-red-400 hover:bg-red-400/20 transition-all"
-                                    >
-                                        <Trash2 size={16} />
-                                    </button>
-                                </div>
-                                <div className="absolute bottom-4 left-4">
-                                    <div className="flex flex-wrap gap-2">
-                                        {project.projectTags?.slice(0, 3).map((tag: string) => (
-                                            <span key={tag} className="text-[10px] font-black text-white px-2 py-1 bg-violet-600/80 backdrop-blur-md rounded-lg uppercase tracking-wider">
-                                                {tag}
+            </div>
+
+            {/* Recent Messages Section */}
+            <div>
+                <div className="flex items-center justify-between mb-6 border-b border-slate-800/50 pb-4">
+                    <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                        <Clock className="text-slate-400 w-5 h-5" />
+                        Recent Messages
+                    </h2>
+                    <Link 
+                        to="/dashboard/mails"
+                        className="text-sm font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-1 transition-colors"
+                    >
+                        View all <ArrowRight size={14} />
+                    </Link>
+                </div>
+
+                {recentMails.length === 0 ? (
+                    <div className="bg-slate-900 border border-slate-800 border-dashed rounded-2xl p-8 text-center">
+                        <Mail className="text-slate-500 w-8 h-8 mx-auto mb-3" />
+                        <p className="text-slate-400 font-medium text-sm">No recent messages found.</p>
+                    </div>
+                ) : (
+                    <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+                        <div className="divide-y divide-slate-800/50">
+                            {recentMails.map((mail) => (
+                                <Link 
+                                    key={mail._id} 
+                                    to="/dashboard/mails"
+                                    className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-800/20 transition-colors group block"
+                                >
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
+                                            <span className="text-slate-300 font-semibold text-sm">
+                                                {displayName(mail).charAt(0).toUpperCase()}
                                             </span>
-                                        ))}
+                                        </div>
+                                        <div>
+                                            <h4 className="text-white font-medium text-sm mb-0.5 group-hover:text-indigo-400 transition-colors">
+                                                {displayName(mail)}
+                                            </h4>
+                                            <p className="text-slate-400 text-xs truncate max-w-[200px] sm:max-w-xs cursor-pointer">
+                                                {mail.subject}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div className="p-8 space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="text-xl font-black text-white group-hover:text-violet-400 transition-colors">{project.projectTitle}</h3>
-                                    <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center">
-                                        <Terminal size={14} className="text-zinc-500" />
+                                    <div className="text-xs text-slate-500 font-medium shrink-0 flex items-center gap-1.5 sm:ml-auto">
+                                        <Calendar size={13} />
+                                        {new Date(mail.createdAt).toLocaleDateString(undefined, { 
+                                            month: 'short', day: 'numeric'
+                                        })}
                                     </div>
-                                </div>
-                                
-                                <p className="text-zinc-500 text-sm line-clamp-2 leading-relaxed h-10">
-                                    {project.projectdesc}
-                                </p>
-
-                                <div className="pt-6 border-t border-zinc-800/50 flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-2 h-2 rounded-full bg-violet-500 shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
-                                        <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Active Live</span>
-                                    </div>
-                                    <a 
-                                        href={project.projectLink} 
-                                        target="_blank" 
-                                        rel="noreferrer"
-                                        className="p-2 text-zinc-500 hover:text-white transition-colors"
-                                    >
-                                        <ExternalLink size={18} />
-                                    </a>
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            )}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

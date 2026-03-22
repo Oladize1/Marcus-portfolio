@@ -24,12 +24,11 @@ export const useAuth = () => {
 
     const checkAuth = async () => {
         try {
-            const status = localStorage.getItem('isLoggedIn');
-            if (status === 'true') {
-                setUser({ role: 'admin' });
-            } else {
-                setUser(null);
-            }
+            await api.get('/mail');
+            setUser({ role: 'admin' });
+        } catch (error) {
+            setUser(null);
+            localStorage.removeItem('isLoggedIn');
         } finally {
             setLoading(false);
         }
