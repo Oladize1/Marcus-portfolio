@@ -5,11 +5,11 @@
   "license": "ISC",
   "author": "Marcus",
   "type": "module",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch --env-file=.env index.ts",
+    "build": "tsc",
     "start": "node dist/index.js",
-    "build": "tsx",
     "seed:admin": "tsx --env-file=.env admin.ts"
   },
   "devDependencies": {
