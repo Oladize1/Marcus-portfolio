@@ -37,7 +37,7 @@ const ProjectsPage = () => {
     const deleteProject = async (projectId: string) => {
         if (!window.confirm('Are you sure you want to delete this project?')) return;
         try {
-            await api.delete(`/projects/${projectId}`);
+            await api.delete(`/projects/${projectId}/delete`);
             setProjects(projects.filter(p => p._id !== projectId));
         } catch (error) {
             console.error('Delete failed:', error);
