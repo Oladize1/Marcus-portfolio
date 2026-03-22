@@ -36,6 +36,11 @@ export const createEmail: RequestHandler = async (req, res) => {
 
 export const getEmails: RequestHandler = async (req, res) => {
   try {
+    const { role } = req.user;
+    if (role !== "admin") {
+      res.status(401).json("UnAuthorized");
+      return;
+    }
     const mails = await Mail.find()
     if (!mails || mails.length < 1) {
       res.status(200).json("No Email at the moment")
@@ -51,6 +56,11 @@ export const getEmails: RequestHandler = async (req, res) => {
 
 export const deleteEmail: RequestHandler = async (req, res) => {
   try {
+    const { role } = req.user;
+    if (role !== "admin") {
+      res.status(401).json("UnAuthorized");
+      return;
+    }
     const {id} = req.params
     const email = await Mail.findById(id)
     if (!email) {
