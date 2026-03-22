@@ -34,10 +34,14 @@ app.get("/", (req: Request, res: Response): void => {
 
 const startApp = async () => {
   try {
-    const uri = process.env.MONGO_URI;
-
-    if (!uri) {
-      throw new Error("MONGO_URI is not defined");
+    let env = process.env.NODE_ENV
+    let uri: string;
+    if (env === 'development') {
+      uri = process.env.MONGO_URI!
+    }else if(env === 'production'){
+      uri = process.env.MONGO_URI_ATLAS!
+    }else {
+      throw new Error("NODE ENV not set");
     }
     await connectDb(uri)
     app.listen(PORT, () => {
