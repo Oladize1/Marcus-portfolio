@@ -1,28 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true,
-});
+import { initialProjects } from "../data/projects";
 
 const HomePage = () => {
-	 const [projects, setProjects] = useState([]);
-
-   useEffect(() => {
-     const fetchProjects = async () => {
-       try {
-         const { data } = await api.get("/projects");
-         if (Array.isArray(data)) {
-           setProjects(data.slice(0, 3));
-         }
-       } catch (err) {
-         console.error("Failed to fetch projects", err);
-       }
-     };
-     fetchProjects();
-   }, []);
+	 const [projects, setProjects] = useState(initialProjects);
 
   return (
     <>
