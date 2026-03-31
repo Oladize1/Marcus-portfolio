@@ -87,17 +87,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = async () => {
         try {
-            if (localStorage.getItem('isDemoMode') === 'true') {
+            const isDemo = localStorage.getItem('isDemoMode') === 'true';
+            
+            if (isDemo) {
                 localStorage.removeItem('isDemoMode');
                 localStorage.removeItem('isLoggedIn');
-                setUser(null);
-                navigate('/login');
+                navigate('/demo');
+                setTimeout(() => setUser(null), 50);
                 return;
             }
+            
             await api.post('/admin/logout');
             localStorage.removeItem('isLoggedIn');
-            setUser(null);
             navigate('/login');
+            setTimeout(() => setUser(null), 50);
         } catch (error) {
             console.error('Logout failed', error);
         }
