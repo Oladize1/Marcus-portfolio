@@ -35,7 +35,7 @@ const MailsPage = () => {
     const deleteMail = async (id: string) => {
         if (!window.confirm('Delete this message permanently?')) return;
         try {
-            await api.delete(`/mail/${id}`);
+            await api.delete(`/mail/${id}/delete_email`);
             setMails(prev => prev.filter(m => m._id !== id));
             if (viewMail?._id === id) setViewMail(null);
         } catch {

@@ -226,14 +226,26 @@ const HomePage = () => {
                     {project.projectdesc}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {(project.projectTags ?? []).map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 rounded-md"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    {(project.projectTags ?? []).map((tag, index) => {
+                      const colors = [
+                        "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+                        "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
+                        "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300",
+                        "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
+                        "bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300",
+                        "bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300",
+                        "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300"
+                      ];
+                      const colorClass = colors[index % colors.length];
+                      return (
+                        <span
+                          key={tag}
+                          className={`px-2 py-1 text-xs rounded-md ${colorClass}`}
+                        >
+                          {tag}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

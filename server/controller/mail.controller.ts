@@ -37,6 +37,7 @@ export const createEmail: RequestHandler = async (req, res) => {
 export const getEmails: RequestHandler = async (req, res) => {
   try {
     const { role } = req.user;
+    
     if (role !== "admin") {
       res.status(401).json("UnAuthorized");
       return;
@@ -62,6 +63,7 @@ export const deleteEmail: RequestHandler = async (req, res) => {
       return;
     }
     const {id} = req.params
+    
     const email = await Mail.findById(id)
     if (!email) {
       res.status(404).json("Email Not Found")

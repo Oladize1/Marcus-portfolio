@@ -7,6 +7,7 @@ import DashboardPage from './pages/DashboardPage.tsx';
 import CreateProjectPage from './pages/CreateProjectPage.tsx';
 import ProjectsPage from './pages/ProjectsPage.tsx';
 import MailsPage from './pages/MailsPage.tsx';
+import DemoLandingPage from './pages/DemoLandingPage.tsx';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { user, loading } = useAuth();
@@ -28,6 +29,7 @@ function App() {
             <AuthProvider>
                 <Routes>
                     <Route path="/login" element={<LoginPage />} />
+                    <Route path="/demo" element={<DemoLandingPage />} />
                     
                     {/* Redirect root to dashboard */}
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
