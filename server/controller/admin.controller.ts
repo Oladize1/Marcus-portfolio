@@ -41,6 +41,8 @@ export const login: RequestHandler = async (req, res) => {
     }
 }
 
+
+
 export const logout: RequestHandler = async (req, res) => {
     try {
         res.clearCookie("token", {

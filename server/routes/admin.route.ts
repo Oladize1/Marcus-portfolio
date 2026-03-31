@@ -8,5 +8,6 @@ adminRouter.post('/login', login)
 adminRouter.post('/logout', logout)
 
 adminRouter.get('/me', isAuth, (req, res) => {
-    res.status(200).json({ role: 'admin' })
+    const userRole = (req as any).user?.role || 'admin';
+    res.status(200).json({ role: userRole });
 })

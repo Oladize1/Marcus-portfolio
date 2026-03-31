@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api.ts';
 
 type AuthUser = {
-    role: 'admin';
+    role: 'admin' | 'demo';
 };
 
 type LoginResult = {
@@ -22,6 +22,7 @@ interface AuthContextType {
     user: AuthUser | null;
     loading: boolean;
     login: (username: string, password: string) => Promise<LoginResult>;
+    demoLogin: () => Promise<LoginResult>;
     logout: () => Promise<void>;
 }
 
@@ -34,9 +35,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const checkAuth = async () => {
         try {
+            if (localStorage.getItem('isDemoMode') === 'true') {
+                setUser({ role: 'demo' });
+                setLoading(false);
+                return;
+            }
             const response = await api.get('/admin/me');
             if (response.status === 200) {
-                setUser({ role: 'admin' });
+                // Assuming backend returns { role: 'admin' | 'demo' }
+                setUser({ role: response.data.role || 'admin' });
             } else {
                 setUser(null);
                 localStorage.removeItem('isLoggedIn');
@@ -70,8 +77,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    const demoLogin = async (): Promise<LoginResult> => {
+        localStorage.setItem('isDemoMode', 'true');
+        localStorage.setItem('isLoggedIn', 'true');
+        setUser({ role: 'demo' });
+        navigate('/');
+        return { success: true };
+    };
+
     const logout = async () => {
         try {
+            if (localStorage.getItem('isDemoMode') === 'true') {
+                localStorage.removeItem('isDemoMode');
+                localStorage.removeItem('isLoggedIn');
+                setUser(null);
+                navigate('/login');
+                return;
+            }
             await api.post('/admin/logout');
             localStorage.removeItem('isLoggedIn');
             setUser(null);
@@ -82,7 +104,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, demoLogin, logout }}>
             {children}
         </AuthContext.Provider>
     );

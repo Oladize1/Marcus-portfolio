@@ -4,6 +4,7 @@ import { uploadImg } from "../config/cloudinary"
 
 export const getProjects: RequestHandler = async (req, res) => {
     try {
+        
         const projects = await Project.find()
         if (!projects || projects.length === 0) {
             res.status(200).json("No project at the moment")
@@ -20,6 +21,7 @@ export const getProjects: RequestHandler = async (req, res) => {
 export const createProject: RequestHandler = async (req, res) => {
     try {
         const { role } = req.user;
+        
         if (role !== "admin") {
           res.status(401).json("UnAuthorized");
           return;
@@ -48,11 +50,13 @@ export const createProject: RequestHandler = async (req, res) => {
         res.status(400).json("Project tags must at least be four")
         return;
        }
-       const uploadImage = await uploadImg(file.path);
+       const uploadImage = file ? await uploadImg(file.path) : null;
+       const projectImgUrl = uploadImage ? uploadImage.secure_url : "https://via.placeholder.com/800x600?text=Demo+Image";
+
        const newProject = new Project({
         projectTitle,
         projectdesc,
-        projectImg: uploadImage.secure_url,
+        projectImg: projectImgUrl,
         projectTags,
         projectLink,
         projectSrcLink
@@ -81,6 +85,7 @@ export const editProject: RequestHandler = async (req, res) => {
           projectLink,
           projectSrcLink,
         } = req.body; 
+
         const project = await Project.findById(id)
         if (!project) {
             res.status(404).json("Project not Found")
@@ -121,6 +126,7 @@ export const deleteProject: RequestHandler = async (req, res) => {
           return;
         }
         const {id} = req.params
+
         const project = await Project.findByIdAndDelete(id)
         if (!project) {
             res.status(404).json("Project Not Found")
