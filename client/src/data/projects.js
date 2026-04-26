@@ -27,8 +27,7 @@ export const initialProjects = [
       "typescript",
       "Nodemailer"
     ],
-    "projectSrcLink": "https://github.com/Oladize1/Marcus-portfolio.git",
-    "projectLink": "https://marcus-portfolio-admin.netlify.app/dashboard",
+    "projectSrcLink": "https://marcus-portfolio-admin.netlify.app/demo",
     "projectImg": "https://res.cloudinary.com/dfyoot4td/image/upload/v1774980760/vmjbhq2ouddb3oo1houf.png",
     "createdAt": "2026-03-31T18:12:34.163Z",
     "updatedAt": "2026-03-31T18:12:34.163Z",
