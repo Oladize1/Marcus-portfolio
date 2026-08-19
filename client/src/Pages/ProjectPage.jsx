@@ -114,36 +114,44 @@ const ProjectPage = () => {
                   })}
                 </div>
                 <div className="flex justify-between items-center">
-                  <a
-                    href={project.projectLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-300 text-sm font-medium"
-                  >
-                    View Project
-                    <span className="material-symbols-outlined ml-1 text-sm">
-                      arrow_forward
-                    </span>
-                  </a>
-                  <div className="flex gap-2">
-                    <a
-                      href={project.projectSrcLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-all duration-300"
-                    >
-                      <i className="fa-brands fa-github text-lg"></i>
-                    </a>
+                  {project.projectLink ? (
                     <a
                       href={project.projectLink}
                       target="_blank"
                       rel="noreferrer"
-                      className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-all duration-300"
+                      className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-300 text-sm font-medium"
                     >
-                      <span className="material-symbols-outlined text-sm">
-                        language
+                      View Project
+                      <span className="material-symbols-outlined ml-1 text-sm">
+                        arrow_forward
                       </span>
                     </a>
+                  ) : (
+                    <div></div>
+                  )}
+                  <div className="flex gap-2">
+                    {project.projectSrcLink && (
+                      <a
+                        href={project.projectSrcLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-all duration-300"
+                      >
+                        <i className="fa-brands fa-github text-lg"></i>
+                      </a>
+                    )}
+                    {project.projectLink && (
+                      <a
+                        href={project.projectLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-all duration-300"
+                      >
+                        <span className="material-symbols-outlined text-sm">
+                          language
+                        </span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

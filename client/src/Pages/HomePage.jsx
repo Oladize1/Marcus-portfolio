@@ -192,26 +192,30 @@ const HomePage = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                     <div className="p-4 w-full">
                       <div className="flex gap-2 justify-end">
-                        <a
-                          href={project.projectLink}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/40 transition-colors"
-                        >
-                          <span className="material-symbols-outlined text-white">
-                            visibility
-                          </span>
-                        </a>
-                        <a
-                          href={project.projectSrcLink}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/40 transition-colors"
-                        >
-                          <span className="material-symbols-outlined text-white">
-                            code
-                          </span>
-                        </a>
+                        {project.projectLink && (
+                          <a
+                            href={project.projectLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/40 transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-white">
+                              visibility
+                            </span>
+                          </a>
+                        )}
+                        {project.projectSrcLink && (
+                          <a
+                            href={project.projectSrcLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/40 transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-white">
+                              code
+                            </span>
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>

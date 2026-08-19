@@ -15,8 +15,7 @@ const ProjectSchema = new mongoose.Schema({
         required: true 
     },
     projectSrcLink: {
-        type: String,
-        required: true
+        type: String
     },
     projectLink: {
         type: String
