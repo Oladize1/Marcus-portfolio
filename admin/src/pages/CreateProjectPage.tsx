@@ -96,6 +96,11 @@ const CreateProjectPage = () => {
             return;
         }
 
+        if (!formData.projectLink && !formData.projectSrcLink) {
+            setError('You must provide at least one link (GitHub URL or Live Demo URL).');
+            return;
+        }
+
         if (!isEditMode && !imageFile) {
             setError('An image file is required for new projects.');
             return;
@@ -108,8 +113,8 @@ const CreateProjectPage = () => {
             const data = new FormData();
             data.append('projectTitle', formData.projectTitle);
             data.append('projectdesc', formData.projectdesc);
-            if (formData.projectLink) data.append('projectLink', formData.projectLink);
-            if (formData.projectSrcLink) data.append('projectSrcLink', formData.projectSrcLink);
+            data.append('projectLink', formData.projectLink || '');
+            data.append('projectSrcLink', formData.projectSrcLink || '');
             
             formData.projectTags.forEach(tag => {
                 data.append('projectTags', tag);
@@ -294,7 +299,6 @@ const CreateProjectPage = () => {
                                     onChange={e => setFormData({ ...formData, projectLink: e.target.value })}
                                     className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                                     placeholder="https://..."
-                                    required
                                 />
                             </div>
                         </div>

@@ -33,8 +33,12 @@ export const createProject: RequestHandler = async (req, res) => {
           return;
         }
        const {projectTitle, projectdesc, projectLink, projectSrcLink} = req.body
-       if (!projectTitle || !projectdesc || !projectLink) {
-        res.status(400).json("All fields are required")
+       if (!projectTitle || !projectdesc) {
+        res.status(400).json("Title and description are required")
+        return;
+       }
+       if (!projectLink && !projectSrcLink) {
+        res.status(400).json("At least one link (Demo or Source) is required")
         return;
        }
 
@@ -65,7 +69,7 @@ export const createProject: RequestHandler = async (req, res) => {
        res.status(201).json(newProject)
        return;
     } catch (error) {
-        res.status(500).json("Failed to get all projects")
+        res.status(500).json("Failed to create project")
         return;
     }
 }
@@ -105,8 +109,8 @@ export const editProject: RequestHandler = async (req, res) => {
           }
           editProjectDetails.projectTags = projectTags;
         }
-        if (projectLink) editProjectDetails.projectLink = projectLink;
-        if (projectSrcLink) editProjectDetails.projectSrcLink = projectSrcLink;
+        if (projectLink !== undefined) editProjectDetails.projectLink = projectLink;
+        if (projectSrcLink !== undefined) editProjectDetails.projectSrcLink = projectSrcLink;
 
         const editedProject = await Project.findByIdAndUpdate(id, editProjectDetails, { returnDocument: 'after' })
         res.status(200).json(editedProject)
